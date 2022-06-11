@@ -55,10 +55,8 @@ class StokController extends Controller
             return response()->json($validator->errors());
         }
 
-        // return response($stok);
-
         $stok->update([
-            'jumlah' => $request->jumlah,
+            'jumlah' => $request->jumlah +  $stok->jumlah,
         ]);
 
         return response()->json($stok, 200);
