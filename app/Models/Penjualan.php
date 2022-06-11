@@ -17,5 +17,9 @@ class Penjualan extends Eloquent
         'jumlah',
     ];
 
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class,'id_kendaraan','_id');
+    }
     
 }
