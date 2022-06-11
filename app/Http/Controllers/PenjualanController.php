@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PenjualanResource;
-use App\Http\Resources\PenjualanStokResource;
-use App\Models\Kendaraan;
+use App\Models\Stok;
 use App\Models\Mobil;
 use App\Models\Motor;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Kendaraan;
 use App\Models\Penjualan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\PenjualanStokResource;
 
 class PenjualanController extends Controller
 {
@@ -34,11 +35,40 @@ class PenjualanController extends Controller
             'jumlah' => 'required|numeric',
         ]);
 
+        // Cek stok
+        $stok = Stok::where('id_kendaraan',$request->id_kendaraan)->first();
+
+        if ($stok->jumlah < $request->jumlah) {
+            return response()->json([
+                'status' => 'Penjualan melebihi stok !',
+                'stok' => $stok->jumlah,
+            ], 400);
+        }
+
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
 
-        $penjualan = Penjualan::create($request->all());
+        $session = DB::getMongoClient()->startSession();
+        $session->startTransaction();
+
+        try {
+            $penjualan = Penjualan::create($request->all());
+
+            $stok->update([
+                'jumlah' => $stok->jumlah - $request->jumlah,
+            ]);
+
+            // DB::commit();
+            $session->commitTransaction();
+
+        } catch (\Throwable $th) {
+            // DB::rollBack();
+            $session->abortTransaction();
+            
+            return response()->json($th,400);
+
+        }
 
         return response()->json($penjualan, 200);
     }
