@@ -16,4 +16,9 @@ class Stok extends Eloquent
         'id_kendaraan',
         'jumlah',
     ];
+
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class, 'id_kendaraan', '_id');
+    }
 }
