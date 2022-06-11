@@ -59,11 +59,9 @@ class PenjualanController extends Controller
                 'jumlah' => $stok->jumlah - $request->jumlah,
             ]);
 
-            // DB::commit();
             $session->commitTransaction();
 
         } catch (\Throwable $th) {
-            // DB::rollBack();
             $session->abortTransaction();
             
             return response()->json($th,400);
