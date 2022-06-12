@@ -20,8 +20,6 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = User::where('email', $request->email)->first();
 
-            // return response($user);
-
             $token = $user->createToken('auth_token')->plainTextToken;
             
             $response = [
