@@ -14,11 +14,9 @@ class CreateMobilTable extends Migration
     public function up()
     {
         Schema::create('mobil', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_kendaraan');
-            $table->foreign('id_kendaraan')->references('id')->on('kendaraan')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->foreignId('id_kendaraan')->constrained()
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->string('mesin');
             $table->string('kapasitas_penumpang');
             $table->string('tipe');

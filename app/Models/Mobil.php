@@ -18,4 +18,9 @@ class Mobil extends Eloquent
         'kapasitas_penumpang',
         'tipe',
     ];
+
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class,'id_kendaraan','_id');
+    }
 }
