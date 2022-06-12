@@ -26,7 +26,6 @@ class StokController extends Controller
     
     public function store(Request $request)
     {
-        return response('cok');
 
         $validator = Validator::make($request->all(), [
             'id_kendaraan' => 'required|exists:kendaraan,_id|unique:stok,id_kendaraan',
