@@ -67,7 +67,7 @@ class MobilController extends Controller
             return response()->json($th->getMessage(), 400);
         }
 
-        return response()->json($mobil, 200);
+        return MobilResource::make($mobil);
     }
 
     /**
@@ -91,12 +91,12 @@ class MobilController extends Controller
     public function update(Request $request, Mobil $mobil)
     {
         $validator = Validator::make($request->all(), [
-            'mesin' => 'required|string',
-            'kapasitas_penumpang' => 'required|string',
-            'tipe' => 'required|string',
-            'tahun' => 'required|string|min:4|max:5',
-            'warna' => 'required|string',
-            'harga' => 'required|integer',
+            'mesin' => 'nullable|string',
+            'kapasitas_penumpang' => 'nullable|string',
+            'tipe' => 'nullable|string',
+            'tahun' => 'nullable|string|min:4|max:5',
+            'warna' => 'nullable|string',
+            'harga' => 'nullable|integer',
         ]);
 
         if ($validator->fails()) {
