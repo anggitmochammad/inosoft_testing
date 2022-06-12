@@ -14,11 +14,9 @@ class CreateMotorTable extends Migration
     public function up()
     {
         Schema::create('motor', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_kendaraan');
-            $table->foreign('id_kendaraan')->references('id')->on('kendaraan')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->foreignId('id_kendaraan_fk')->constrained()
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->string('mesin');
             $table->string('kapasitas_penumpang');
             $table->string('tipe');
