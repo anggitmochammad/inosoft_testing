@@ -3,9 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stok;
-use App\Models\Mobil;
-use App\Models\Motor;
-use App\Models\Kendaraan;
 use App\Models\Penjualan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -64,7 +61,7 @@ class PenjualanController extends Controller
         } catch (\Throwable $th) {
             $session->abortTransaction();
             
-            return response()->json($th,400);
+            return response()->json($th->getMessage(),400);
 
         }
 
