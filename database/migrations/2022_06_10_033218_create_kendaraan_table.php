@@ -14,7 +14,6 @@ class CreateKendaraanTable extends Migration
     public function up()
     {
         Schema::create('kendaraan', function (Blueprint $table) {
-            $table->increments('id');
             $table->string('warna');
             $table->year('tahun');
             $table->integer('harga');
