@@ -29,7 +29,7 @@ class StokController extends Controller
         return response('cok');
 
         $validator = Validator::make($request->all(), [
-            'id_kendaraan' => 'required|exists:kendaraan,_id',
+            'id_kendaraan' => 'required|exists:kendaraan,_id|unique:stok,id_kendaraan',
             'jumlah' => 'required|numeric',
         ]);
 
@@ -44,10 +44,8 @@ class StokController extends Controller
 
     public function update(Request $request,Stok $stok)
     {
-        // dd('tese');
-
         $validator = Validator::make($request->all(), [
-            'id_kendaraan' => 'required|exists:kendaraan,_id',
+            'id_kendaraan' => 'required|exists:kendaraan,_id|unique:stok,id_kendaraan,except,'.$stok->id,
             'jumlah' => 'required|numeric',
         ]);
 
